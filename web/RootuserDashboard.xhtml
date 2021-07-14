@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Rootuser Dashboard</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/images/losalogo.ico" type="image/x-icon"/> 
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+
+    </h:head>
+
+    <h:body style="font-size: small;background: #ece3a5">
+        <b:form>
+            <p:growl id="messages" showDetail="true" sticky="true" />
+
+            <p:idleMonitor timeout="40000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+            </p:idleMonitor>
+        </b:form>
+
+        <div align="center">
+            <h:form style="background: #336600;" >
+
+                <ui:include src="headerRootUserDashboard.xhtml"/>
+
+            </h:form>
+        </div>
+
+
+        <b:container  fluid="false" > 
+            <div  >
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+
+            <div class="col-md-8">
+                <h2 align="left" style="font-family: 'Oleo Script', monospace; color: red"> Welcome, Portal 'Rootuser'.</h2>
+                <p:separator />
+                <h3 style="color: green; font-style:oblique ;font-family:  'Kanit', sans-serif;">Important Information:</h3>
+
+                <ol type="1" style="font-family: monospace; color: black">
+                    <li>                <h3 style="color: black">This is 'Rootuser' Dashboard for e-SIM Portal</h3></li>
+                    <li>                <h3 style="color: black">This window enables the admin to control the resources of the portal </h3> </li>
+                    <li>                <h3 style="color: black">The Portal 'Root User' is responsible for the creation of admin users (who in turns creates the common users)</h3>   </li>
+                    <li>                <h3 style="color: black">The Portal 'Root user' can view existing admin users from this dashaboard</h3> </li>
+                </ol>
+
+            </div>
+
+        </b:container>
+
+        <!-- adding the footer -->
+
+
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+
+        <!-- js -->
+        <script type="text/javascript" src="resources/js/jquery-2.1.4.min.js"></script>
+        <!-- //js -->
+
+    </h:body>
+</html>
+

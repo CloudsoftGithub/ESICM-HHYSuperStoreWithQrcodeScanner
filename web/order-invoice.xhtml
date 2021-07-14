@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title> order invoice </title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/images/losalogo.ico" type="image/x-icon"/> 
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="resources/css/bootstrap.min.css" rel="stylesheet"></link>
+
+        <!-- Google web font -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
+
+        <link href="https://fonts.googleapis.com/css?family=Anton&amp;subset=latin-ext" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;subset=latin-ext" rel="stylesheet"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Shrikhand&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet"></link>
+
+        <!-- style css -->
+        <link href="css/style.css" rel="stylesheet"></link>
+
+        <script>
+            function printContent(el) {
+                var restorepage = document.body.innerHTML;
+                var princontent = document.getElementById(el).innerHTML;
+                document.body.innerHTML = princontent;
+                window.print();
+                document.body.innerHTML = restorepage;
+            }
+        </script>
+        <style type="text/css">
+            @page{
+                size: auto;
+                margin: 3mm;
+                }
+        </style>
+    </h:head>
+
+    <h:body style="font-size: small;background: #ccccff">
+        <b:form>
+            <p:growl id="messages" showDetail="true" sticky="true" />
+
+            <p:idleMonitor timeout="40000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+            </p:idleMonitor>
+        </b:form>
+        <div align="center">
+            <h:form style="background: #336600;" >
+
+                <ui:include src="headerSales-ManagerDashboard.xhtml"/>
+
+            </h:form>
+        </div>
+
+        <b:container  fluid="false" > 
+            <div  >
+                <p:spacer height="150px" /> <!-- this is a space  -->
+            </div>
+
+            <b:form id="OrderInvoiceForm" >
+
+                <b:focus target="TransactionID" /> <!-- Set focus on the '' -->
+
+
+                <b:messages id="msg" style="font-size: medium" />
+
+                <div class="col-sm-3">
+                    <!-- this div creates two columns spaces before the next div-->
+                    <b:inputText id="TransactionID" style="width: 250px;" label="Transaction ID:"  value="#{orderBEAN.transactionID}" required="true" required-message="Please, enter customer Transaction ID!" onblur="#{orderBEAN.invoiceCallingmthd()}"  update="msg,invoice,OrderAmount">
+
+                    </b:inputText>
+                    <p:separator />
+                    <b:commandButton   style="background: red; color: whitesmoke; width: 160px; height: 40px; font-size: large" look="primary" value="Verify Transaction"   action="#{orderBEAN.invoiceCallingmthd()}"   update="msg,invoice,OrderAmount" /> 
+
+                    <p:separator style="background: gray"/>
+
+                    <!-- -->
+                    <b:commandButton value="Accept Transaction" look="success" style="width: 170px; height: 40px; font-size: large; color: whitesmoke" action="#{orderBEAN.acceptOrder()}"   update="msg,invoice" />
+
+                    <p:separator style="background: gray"/>
+                    <b:commandButton value="Derliver Order" action="#{orderBEAN.deliveryMthd()}"  look="success" style="width: 170px; height: 40px; font-size: large; color: whitesmoke"  update="msg,invoice" />
+
+                </div>
+             
+                <div class="col-sm-2" id="mydiv" style="background: whitesmoke">
+                    
+                </div>
+
+                <div class="col-sm-3" id="mydiv" style="background: whitesmoke">
+
+                  <!--   <p:commandButton value="Print-invoce"  >
+                        <p:printer target="invoiceOuputPanel" />
+                    </p:commandButton> -->
+
+                    <div id="invoicePrintingDIV" >
+                        <h:panelGroup id="invoiceOuputPanel">
+
+                            <div align="left">
+                                <h:graphicImage  name="/images/invoice.jpg" alt="image1" styleClass="content"/>
+                            </div>
+
+                            <h:dataTable  id="invoice" border="1" value="#{orderBEAN.invoiceInfo}" var="item" style="width:260px;height: 45px; font-size: 11px; font-family: Arial (Body CS) ">
+                                
+                               <!--  <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Product ID" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.productID}"></h:outputText>
+                                </h:column>-->
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Description" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.productDescp}"></h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Qty" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.unitQty}"></h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Price" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.price}"></h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Total" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.totalPerProduct}"></h:outputText>
+                                </h:column>
+
+                                <!-- <h:column >
+                                    <f:facet name="header">
+                                        <h:outputText  value="Order Date" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.orderDate}"></h:outputText>  
+                                </h:column>  -->
+
+                               <!--  <h:column  >
+                                    <f:facet name="header">
+                                        <h:outputText  value="Acceptance" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.acceptance}"></h:outputText>
+                                </h:column> -->
+
+                                <!-- <h:column  >
+                                    <f:facet name="header">
+                                        <h:outputText value="Delivery" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.delivery}"></h:outputText>
+                                </h:column> -->
+                            </h:dataTable>
+
+                          
+                            <!-- displaying the order-Amount-->
+                            <h:dataTable  id="OrderAmount" border="1" value="#{orderBEAN.printableInvoiceAmountInfo}" var="item" style="width:260px;font-family:  Arial (Body CS); font-size: 10px">
+                                <h:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Transaction ID" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.orderTransactionID}"></h:outputText>
+                                </h:column>
+
+                                <h:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Customer Name" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.customerName}"></h:outputText>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText  value="order_Amount" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.order_amount}"></h:outputText>
+                                </h:column>
+
+                                <h:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Date" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText  escape="false" value="#{item.orderDate}"></h:outputText>
+                                </h:column>
+                            </h:dataTable>
+
+                        </h:panelGroup>
+                    </div>
+
+                   
+                </div>
+                <div class="col-sm-1" id="mydiv" style="background: whitesmoke">
+                    
+                </div>
+                <div class="col-sm-3">
+                    <!-- Just A Space -->  
+                    <button onClick="printContent('invoicePrintingDIV')" style="background:  green; color: white; font-family: monospace; font-style: oblique; font-size: small"> Print Invoice</button>
+   </div>
+
+
+
+                <div class="col-sm-12"   style="font-size:  large">
+                    <p:separator />
+
+                    <div class="col-sm-12" style="background: #ccc" align="center" >
+                        <h:outputText value="----------------------- Sales Transaction Details -----------------------" class="text-center  text-uppercase" style="font-size: large; color: black; font-family: monospace" />
+                    </div>
+                    <b:panel   style=" font-size: smaller; background: #dfddf7">
+
+                        <b:panel id="subpanel2">
+                            <b:panel id="salesTransactionDetailsPanel" title="Sales Transactions Form" style=" background: #adc4be; ">
+                                <h3 align="center" style="font-family: sans-serif; color: #843534"> Sales Transactions Details</h3>
+
+                                <b:dataTable  id="SalesTractionDetails" searching="true" info="true" paginated="true"  value="#{orderBEAN.entireInvoiceAmountInfo}" var="item" style="width:750px; font-size: small">
+                                    <f:facet name="header">
+                                        <h:outputText value="Order Amount" />
+                                    </f:facet>
+
+                                    <b:column >
+                                        <f:facet name="header">
+                                            <h:outputText value="Transaction ID" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.orderTransactionID}"></h:outputText>
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Customer Name" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.customerName}"></h:outputText>
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText  value="order_Amount" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.order_amount}"></h:outputText>
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Date" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText  escape="false" value="#{item.orderDate}"></h:outputText>
+                                    </b:column>
+                                </b:dataTable>
+
+
+                            </b:panel>
+
+                        </b:panel> <!-- SubPanel2-->
+
+                    </b:panel>
+                </div>
+
+            </b:form>
+        </b:container>
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <!-- adding the footer -->
+
+
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+    </h:body>
+</html>
+

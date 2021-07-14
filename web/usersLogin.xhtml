@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>users login</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/images/losalogo.ico" type="image/x-icon"/> 
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+        <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css"></link>
+
+        <!-- Google web font -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
+
+        <link href="https://fonts.googleapis.com/css?family=Anton&amp;subset=latin-ext" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;subset=latin-ext" rel="stylesheet"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Shrikhand&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet"></link>
+
+
+        <!-- style css -->
+        <link href="css/style.css" rel="stylesheet"></link>
+
+        <!-- Web of trust -->
+        <meta name="wot-verification" content="059af010b1d56404f726"/> 
+
+    </h:head>
+
+    <h:body>
+        <b:form>
+            <p:growl id="messages" showDetail="true" sticky="true" />
+
+            <p:idleMonitor timeout="40000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+            </p:idleMonitor>
+        </b:form>
+
+        <div>
+            <b:form>
+                <ui:include src="headerUsersLoginDashboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container  fluid="false" >
+            <div>
+                <p:spacer height="120px" /> <!-- this is a space  -->
+            </div>
+
+
+            <b:form>
+                <div class="col-sm-4">
+                    <h3 align="left" style="font-family: 'Shrikhand', cursive;; color: blue"> Welcome to e-SIM Portal!
+                    </h3>
+                    <div style="background: black">
+                        <marquee behavior="scroll" scrolldelay="200" direction="left"  > 
+                            <h3 align="center" style="font-family: 'Pacifico', monospace; color: white;  "> Please, use your 'user' credentials to login</h3>
+                        </marquee>
+                    </div>
+                    <p:separator/>
+
+                    <p:spacer height="30px"/>
+
+
+                </div>
+
+                <div class="col-sm-4">
+                    <b:messages id="msg" />
+
+                    <b:panel title="User Login" style="background:  #000000; color: white; font-size: medium">
+                        <h3 align="center" style="font-family: 'Pacifico', monospace; color: #936be8">Please, login here.</h3>
+                        <br style="height: 30px"  />
+
+                        <b:inputText tooltip="supply your username" type="text" value="#{rootLoginBEAN.username}" class="form-control" label="username" placeholder="username" required="true" requiredMessage="Pls, supply username" />
+                        <b:inputSecret tooltip="supply your password" type="password" value="#{rootLoginBEAN.password}" class="form-control" label="password" placeholder="Password" required="true" requiredMessage="Pls, supply password"/>      
+
+                        <b:selectOneMenu id="userType" label="User Type:" value="#{rootLoginBEAN.userType}"  required="true" required-message="Pls, select user-type">
+                            <f:selectItem itemLabel="Select Type of User" itemValue=""  />
+                            <f:selectItem itemLabel="CEO" itemValue="CEO" />
+                            <f:selectItem itemLabel="Sales-Manager" itemValue="Sales-Manager" />
+                            <f:selectItem itemLabel="Sales-Personnel" itemValue="Sales-Personnel" />
+                            <f:selectItem itemLabel="Store-Keeper" itemValue="Store-Keeper" />
+                            <f:selectItem itemLabel="Cashier" itemValue="Cashier" />
+                        </b:selectOneMenu>
+
+                        <p:separator  />
+                        <p:commandButton  style="background: #000; color: white" value="Login" action="#{rootLoginBEAN.userLogin()}" update="msg"/> 
+                    </b:panel>
+                    <p:spacer height="100px"/>
+                </div>
+
+                <div class="col-sm-4">
+
+                </div>
+            </b:form>
+
+        </b:container>
+
+        <!-- adding the footer -->
+
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+
+        <!-- js -->
+        <script type="text/javascript" src="resources/js/jquery-2.1.4.min.js"></script>
+        <!-- //js -->
+    </h:body>
+
+</html>
+

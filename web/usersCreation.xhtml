@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+       
+
+    </h:head>
+
+    <h:body>
+      
+        <div>
+            <b:form>
+                <ui:include src="headerAdminDashboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container  fluid="false" >
+            <div>
+                <p:spacer height="120px" /> <!-- this is a space  -->
+            </div>
+
+
+            <b:form>
+                <div class="col-sm-4">
+                     
+                    <p:spacer height="30px"/>
+
+
+                </div>
+
+                <div class="col-sm-4">
+                    <b:messages id="msg" />
+
+                    <b:panel title="Users Creation Panel" style="background:  #ffffff; color: #d58512; font-size: medium">
+                        <h3  align="center" style="font-family: 'Pacifico', monospace; color: #936be8">Create users here.</h3>
+                        <br style="height: 30px"  />
+
+                        <b:inputText tooltip="supply your username" type="text" value="#{usersSignupBEAN.usersSignp.username}" class="form-control" label="Username" placeholder="username" required="true" requiredMessage="Pls, supply username" />
+                        <b:inputSecret tooltip="supply your password" type="password" value="#{usersSignupBEAN.usersSignp.password}" class="form-control" label="Password" placeholder="Password" required="true" requiredMessage="Pls, supply password"/>      
+                        <b:selectOneMenu id="userType" label="User Type:" value="#{usersSignupBEAN.usersSignp.userType}"  required="true" required-message="Pls, select user-type">
+                            <f:selectItem itemLabel="Select Type of User" itemValue=""  />
+                             <f:selectItem itemLabel="CEO" itemValue="CEO" />
+                            <f:selectItem itemLabel="Sales-Manager" itemValue="Sales-Manager" />
+                            <f:selectItem itemLabel="Sales-Personnel" itemValue="Sales-Personnel" />
+                            <f:selectItem itemLabel="Store-Keeper" itemValue="Store-Keeper" />
+                            <f:selectItem itemLabel="Cashier" itemValue="Cashier" />
+                        </b:selectOneMenu>
+                        <b:inputText tooltip="supply GsmNo" maxlength="11" type="text" value="#{usersSignupBEAN.usersSignp.gsmNo}" class="form-control" label="Gsm" placeholder="Gsm" required="true" requiredMessage="Pls, supply GsmNo" />
+                        <b:inputText tooltip="supply Name" type="text" value="#{usersSignupBEAN.usersSignp.name}" class="form-control" label="Name" placeholder="name" required="true" requiredMessage="Pls, supply name"/>      
+                        <p:separator  />
+                        <p:commandButton  style="background: #000; color: white" value="Create User" action="#{usersSignupBEAN.usersMthd()}" update="msg"/> 
+                    </b:panel>
+                    <p:spacer height="100px"/>
+                </div>
+
+                <div class="col-sm-4">
+
+                </div>
+            </b:form>
+
+        </b:container>
+
+        <!-- adding the footer -->
+
+
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+
+        <!-- js -->
+        <script type="text/javascript" src="resources/js/jquery-2.1.4.min.js"></script>
+        <!-- //js -->
+    </h:body>
+</html>
+

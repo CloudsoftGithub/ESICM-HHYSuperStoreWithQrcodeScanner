@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Partner Data-Capture</title>
+        <!-- 
+                <link rel="shortcut icon"  href="#{request.contextPath}/resources/images/losalogo.ico" type="image/x-icon"/> 
+        
+        -->
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="resources/css/bootstrap.min.css" rel="stylesheet"></link>
+
+        <!-- js -->
+        <script type="text/javascript" src="resources/js/jquery-2.1.4.min.js"></script>
+        <!-- //js -->
+
+        <!-- Datepicker js -->
+        <script type="text/javascript" src="resources/js/dpStartDate.js"></script>
+        <!-- //Datepicker js -->
+
+
+
+        <!-- Google web font -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
+
+        <link href="https://fonts.googleapis.com/css?family=Anton&amp;subset=latin-ext" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;subset=latin-ext" rel="stylesheet"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Shrikhand&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet"></link>
+
+
+        <!-- style css -->
+        <link href="css/style.css" rel="stylesheet"></link>
+    </h:head>
+
+    <h:body style="font-size: small;background: #ece3a5">
+        <b:form>
+            <p:growl id="messages" showDetail="true" sticky="true" />
+
+            <p:idleMonitor timeout="40000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+            </p:idleMonitor>
+        </b:form>
+        <div align="center">
+            <h:form style="background: #336600;" >
+
+                <ui:include src="headerStore-KeeperDashboard.xhtml"/>
+
+            </h:form>
+        </div>
+
+        <b:container  fluid="false" > 
+            <div  >
+                <p:spacer height="150px" /> <!-- this is a space  -->
+            </div>
+            <b:messages id="msg" style="background: white" />
+
+            <b:form>
+                <div class="col-sm-2" align="center">
+
+
+                    <div style="background: #cc9900">
+                        <marquee behavior="scroll" scrolldelay="150" direction="left"  > 
+                            <h4 align="left" style="font-family: monospace; color: window;"> PARTNER DATA CAPTURE </h4>
+                            <h4 align="center" style="font-family: 'Pacifico', monospace; color: red;  ">Welcome #{rootLoginBEAN.username}. Please, use this page to Capture the 'Partner's Data'</h4>
+                        </marquee>
+                    </div>
+                    <p:separator/>
+
+                    <p:spacer height="30px"/>
+
+
+                </div>
+
+
+                <div class="col-sm-4">
+                    <b:growl id="msg1" />
+
+                    <b:panel title="Partner Data-Capture" style="background: #cc9900; color: #000000; font-size: small">
+                        <h3 align="center" style="font-family: 'Pacifico', monospace; color: #843534">Partner Registration</h3>
+                        <br style="height: 30px"  />
+                        <b:selectOneMenu id="StoreTitle" label="Partner Name:" value="#{partnerRegistrationBEAN.partnerreg.partnerName}"  required="true" required-message="Pls, select partner company">
+                            <f:selectItem itemLabel="Select Partner Company" itemValue=""/>
+                            <f:selectItem itemLabel="DANGOTE FLOURS MILLS" itemValue="DANGOTE FLOURS MILLS" />
+                            <f:selectItem itemLabel="HONEYWELL" itemValue="HONEYWELL" />
+                            <f:selectItem itemLabel="OLAM" itemValue="OLAM" />
+                            <f:selectItem itemLabel="GOLDEN PENNY NIGERIA" itemValue="GOLDEN PENNY NIGERIA" />
+                        </b:selectOneMenu>
+                        <b:datepicker   change-year="true" change-month="true" value="#{partnerRegistrationBEAN.partnerreg.date_of_registration}" id="DateofRegistration" mode="popup" label="Date of Registration" required="true" required-message="Pls, supply Date of Registration"/>
+                        <p:separator  />
+                        <p:commandButton  style="background: #000; color: white" value="Save &amp; Register" action="#{partnerRegistrationBEAN.partnerRegMthd()}"  update="msg,msg1,Registeredpartner"/> 
+                    </b:panel>
+                    <p:spacer height="100px"/>
+                </div>
+
+                <div class="col-md-6"   style="background: #cc9900">
+                    <b:dataTable   id="Registeredpartner" value="#{viewPartnersTable.registeredPartner}" var="item" style="width: 500px;">
+                        <f:facet name="header">
+                            <h:outputText value="Registered Partner" />
+                        </f:facet>
+
+                        <b:column >
+                            <f:facet name="header">
+                                <h:outputText value="Partner ID" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.partnerID}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Partner Name" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.partnerName}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Registration_Date" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.dateRegistered}"></h:outputText>
+                        </b:column>
+                    </b:dataTable>
+
+                </div>
+
+            </b:form>
+
+        </b:container>
+
+
+        <!-- adding the footer -->
+
+
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+
+
+    </h:body>
+</html>
+
+
+

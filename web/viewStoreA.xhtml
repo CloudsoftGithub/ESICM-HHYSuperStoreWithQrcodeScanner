@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>ViewStore-A</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/images/losalogo.ico" type="image/x-icon"/> 
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="resources/css/bootstrap.min.css" rel="stylesheet"></link>
+ 
+        <!-- Google web font -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
+
+        <link href="https://fonts.googleapis.com/css?family=Anton&amp;subset=latin-ext" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;subset=latin-ext" rel="stylesheet"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Shrikhand&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet"></link>
+
+        <!-- style css -->
+        <link href="css/style.css" rel="stylesheet"></link>
+    </h:head>
+
+    <h:body style="font-size: small;background: #9999ff">
+        <b:form>
+            <p:growl id="messages" showDetail="true" sticky="true" />
+
+            <p:idleMonitor timeout="40000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+            </p:idleMonitor>
+        </b:form>
+
+        <div align="center">
+            <h:form style="background: #336600;" >
+
+                <ui:include src="headerStore-KeeperDashboard.xhtml"/>
+
+            </h:form>
+        </div>
+
+
+        <b:container  fluid="false"  > 
+            <div  >
+                <p:spacer height="150px" /> <!-- this is a space  -->
+            </div>
+
+            <b:form id="viewStockForm" >
+                <div class="col-sm-3" align="center" style="color: black; background: #afd0c8">
+                    <div style="background: #936be8; font-family: initial; font-size: large" >
+                        <marquee behavior="scroll" scrolldelay="150" direction="left"  > 
+                            <h4 align="left" style="font-family: monospace; color: black;background: pink "> STOCK IN STORE-A</h4>
+                            <h4 align="center" style="font-family: 'Pacifico', sans-serif; color: blue; ">Welcome #{rootLoginBEAN.username}. Please, use this page to view the 'Stock's Data'.</h4>
+                        </marquee>
+                        <div align="left">
+                            <h5> Please, visit this window for stock-checking.</h5>
+
+                            <h4 style="font-style: oblique; color: wheat"> <u> Note the Following:</u></h4>
+
+                            <ol>
+                                <li>
+                                    <h4 > Reload the page to view the most updated stock data.</h4>
+                                </li>
+
+                            </ol> 
+
+                        </div>
+                    </div>
+                    <p:separator/>
+
+                    <p:spacer height="30px"/>
+                </div>
+
+                <div class="col-md-9"      style="background: #936be8">
+
+                    <div style="background:#990033">
+                        <p:tabMenu activeIndex="0" style="color:  #990033  ">
+                            <p:menuitem value="STORE A" outcome="viewStoreA" />
+                            <p:menuitem value="STORE B" outcome="viewStoreB" />
+                            <p:menuitem value="STORE C" outcome="viewStoreC" />
+                        </p:tabMenu>
+
+                        <!--
+                           <ul class="nav navbar-nav">
+                            <li class="active" style="background: white"><a href="viewStoreA.xhtml" >STORE A</a></li>
+                            <li style="background: white"><a href="viewStoreB.xhtml">STORE B</a></li>
+                            <li style="background: white"><a href="viewStoreC.xhtml">STORE C</a></li>
+                        </ul>
+                        -->
+                     
+                        <p:spacer height="40px"/>
+                        <p:separator/>
+                    </div>
+
+                    <div style="background: #afd0c8; font-family: serif; color: black; font-size: large"> STORE-A Stock Details</div>
+                    <p:separator/>
+
+                    <b:dataTable id="viewStock" value="#{viewStock.storeAviewInfo}"   var="item" style="width: 800px; font-size: small">
+                        <f:facet name="header">
+                            <h:outputText value="Registered Products" />
+                        </f:facet>
+
+                        <b:column >
+                            <f:facet name="header">
+                                <h:outputText value="Product ID" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.productID}"></h:outputText>
+                        </b:column>
+
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Product Descp" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.productDescp}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Partner (Company) Name" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.partner_name}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Store Title" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.store_title}"></h:outputText>
+                        </b:column>
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Qty in Store-A" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.tqty_StoreA}"></h:outputText>
+                        </b:column>
+
+                    </b:dataTable>
+
+                </div>
+
+            </b:form>
+
+        </b:container>
+
+
+        <!-- adding the footer -->
+
+
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+    </h:body>
+</html>
+

@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Stock-Price-Update Form</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/images/losalogo.ico" type="image/x-icon"/> 
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="resources/css/bootstrap.min.css" rel="stylesheet"></link>
+
+
+        <!-- Datepicker js -->
+        <script type="text/javascript" src="resources/js/dpStartDate.js"></script>
+        <!-- //Datepicker js -->
+
+        <!-- Google web font -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
+
+        <link href="https://fonts.googleapis.com/css?family=Anton&amp;subset=latin-ext" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;subset=latin-ext" rel="stylesheet"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Shrikhand&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet"></link>
+
+        <!-- style css -->
+        <link href="css/style.css" rel="stylesheet"></link>
+    </h:head>
+
+    <h:body style="font-size: small;background: #9999ff">
+        <b:form>
+            <div  >
+                <p:spacer height="150px" /> <!-- this is a space  -->
+            </div>
+
+            <p:growl id="messages" showDetail="true" sticky="true" />
+
+            <p:idleMonitor timeout="80000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+            </p:idleMonitor>
+        </b:form>
+
+        <div align="center">
+            <h:form style="background: #336600;" >
+
+                <ui:include src="headerStore-KeeperDashboard.xhtml"/>
+
+            </h:form>
+        </div>
+
+        <b:container  fluid="false" > 
+
+            <b:form id="stockUpdateForm" >
+
+                <b:messages id="msg"  style="font-size: medium"/>
+
+                <div class="col-sm-4">
+
+                    <b:panel  id="stokPriceUpdatePanel" title="Stock-PRICE-Update" style="background: #936be8; color: #000000; font-size: small">
+                        <br style="height: 30px"  />
+
+                        <h:outputText value="Product Title:" /> <br/>
+                        <h:selectOneMenu id="productTitle" label="Product Title:" style="font-size: large" value="#{stock_updateTransaction.product_Title}"  required="true" >
+                            <f:selectItem itemLabel="SELECT PRODUCT" itemValue=""/>
+                            <f:selectItems value="#{stock_price_updateTransaction.get_productTitleMthd()}"/>
+                        </h:selectOneMenu>
+
+                        <br/>      <br/>
+                        <h:outputLabel  for="ProductID" value="Product ID: " style="color: #333333"/>
+                        <br/>
+                        <h:outputText id="ProductID" value="#{stock_price_updateTransaction.productID}"  style="background: #ffffff; font-size: medium" />
+                        <br/>
+
+                        <h:outputLabel for="ProductDescp" value="Product Description: " style="color: #333333" />
+                        <br/>
+                        <h:outputText id="ProductDescp" value="#{stock_price_updateTransaction.productDescp}" style="background: #ffffff; font-size: medium" />
+                        <br/>
+
+                        <h:outputLabel for="CompanyName" value="Company (Partner) Name: " style="color: #333333" />
+                        <br/>
+                        <h:outputText id="CompanyName" value="#{stock_price_updateTransaction.partnerName}"   style="background: #ffffff; font-size: large"/>
+                        <br/>
+                        <p:separator  />
+                        <p:commandButton  style="background: #d9534f; color: whitesmoke; width: 160px; height: 40px; font-size: medium" value="Search Product" action="#{stock_price_updateTransaction.productSearchbyproductTitleDMethod()}" ajax="false" update="CompanyName,ProductDescp,oldProductPrice,NewProductPrice,stockUpdateForm"/> 
+                        <p:separator  />
+                        <b:inputText id="newPrice" label="New Price in Naira: " value="#{stock_price_updateTransaction.newPrice}" required="true" required-message="Please, enter qty purchased!" />
+
+                        <p:separator  />
+
+                        <p:commandButton value="Update Price"  action="#{stock_price_updateTransaction.stockPriceUpdateTransactionWithProTitle()}"   update="msg,oldProductPrice,NewProductPrice"   ajax="false"  style="background: #6d80a6; color: black; widows: 250px; height: 80px; font-size: x-large"  />
+
+                        <!--   -->
+
+                    </b:panel>
+                    <p:spacer height="100px"/>
+                </div>
+
+                <div class="col-sm-8"      style="background: #936be8">
+                    <h:outputText value="Old Product Price"  style="font-size: xx-large; color: black; font-family: monospace"/>
+                    <p:separator />
+
+                    <b:dataTable id="oldProductPrice"   value="#{viewstockUpdateTable.stockOldPriceInfo}" var="item" style="font-size: medium; ">
+                        <f:facet name="header">
+                            <h:outputText value="Registered Products" />
+                        </f:facet>
+
+                        <b:column >
+                            <f:facet name="header">
+                                <h:outputText value="Product ID" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.productID}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Product Descp" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.productDescp}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Partner" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.partner_name}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date Purchase" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.date_purchased}"></h:outputText>
+                        </b:column>
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Sales Price" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.salePrice}"></h:outputText>
+                        </b:column>
+
+                    </b:dataTable>
+
+                </div>
+
+                <p:separator style="background: whitesmoke" />
+
+                <div class="col-sm-8"      style="background: #bbc6dd">
+                    <h:outputText class="text-center" value="LIST OF PRODUCTS WHOSE PRICE WAS MODIFIED "  style="font-size: xx-large; color: black; font-family: monospace"/>
+                    <p:separator />
+                    <b:dataTable id="NewProductPrice"   value="#{viewstockUpdateTable.stockModifiedPriceUpdatedInfo}" var="item" style="font-size: small; font-family: sans-serif">
+                        <f:facet name="header">
+                            <h:outputText value="New Products Price" />
+                        </f:facet>
+
+                        <b:column >
+                            <f:facet name="header">
+                                <h:outputText value="Product ID" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.productID}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Product Descp" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.productDescp}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Partner" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.partner_name}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date Purchase" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.date_purchased}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Sales Price" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.salePrice}"></h:outputText>
+                        </b:column>
+                        
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="New Price" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.newPrice}"></h:outputText>
+                        </b:column>
+                    </b:dataTable>
+
+                </div>
+
+            </b:form>
+
+        </b:container>
+
+
+        <!-- adding the footer -->
+
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+    </h:body>
+</html>
+

@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Product Data-Capture</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/images/losalogo.ico" type="image/x-icon"/> 
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="resources/css/bootstrap.min.css" rel="stylesheet"></link>
+ 
+
+        <!-- Datepicker js -->
+        <script type="text/javascript" src="resources/js/dpStartDate.js"></script>
+        <!-- //Datepicker js -->
+
+        <!-- Google web font -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
+
+        <link href="https://fonts.googleapis.com/css?family=Anton&amp;subset=latin-ext" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;subset=latin-ext" rel="stylesheet"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Shrikhand&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet"></link>
+
+        <!-- style css -->
+        <link href="css/style.css" rel="stylesheet"></link>
+    </h:head>
+
+    <h:body style="font-size: small;background: #ccccff">
+        <b:form>
+ 
+            <p:idleMonitor timeout="40000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}"  />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" />
+            </p:idleMonitor>
+        </b:form>
+
+        <div align="center">
+            <h:form style="background: #336600;" >
+
+                <ui:include src="headerStore-KeeperDashboard.xhtml"/>
+
+            </h:form>
+        </div>
+
+
+        <b:container  fluid="false" > 
+            <div  >
+                <p:spacer height="150px" /> <!-- this is a space  -->
+            </div>
+
+            <b:form id="ProductsRegForm" >
+
+                <b:messages id="msg" style="font-size: large" />
+
+               
+                <div class="col-sm-4">
+
+                    <b:panel id="productRegPanel" title="Products Data-Capture" style="background: #936be8; color: #000000; font-size: small">
+                        <h3 align="center" style="font-family: 'Pacifico', monospace; color: black">Products Registration</h3>
+                        <br style="height: 30px" />
+
+                        <b:inputText id="ProductDescp" label="Product Description:" value="#{productDataCaptureBEAN.productDescp}" required="true" required-message="Please, enter Product Description!" />
+                        <b:inputText id="CompanyName"  label="Company Name:"  value="#{productDataCaptureBEAN.companyName}" required="true" required-message="Please, enter Company Name!" />
+                        <b:inputText id="CostPrice"  label="Cost Price:"  value="#{productDataCaptureBEAN.costPrice}" required="true" required-message="Please, enter Cost Price!" />
+                        <b:inputText id="SalesPrice"  label="Sales Price:"  value="#{productDataCaptureBEAN.salesPrice}" required="true" required-message="Please, enter Sales Price!" />
+
+                        <p:separator  />
+                        <p:commandButton resetValues="false" style="background: #4a885f; color: black; width: 250px; height: 80px; font-size: xx-large" value=" Register"   action="#{productDataCaptureBEAN.registerProduct()}"   update="msg,Registeredproducts,ProductDescp,CompanyName,productRegPanel"   ajax="false"/> 
+                    </b:panel>
+                    <p:spacer height="100px"/>
+                </div>
+
+                <div class="col-sm-8"   style="background: #936be8; ">
+                    <b:dataTable id="Registeredproducts" value="#{viewProductsTable.registeredProducts}" var="item" style="font-size: medium" >
+                        <f:facet name="header">
+                            <h:outputText value="Registered Products" />
+                        </f:facet>
+
+                        <b:column >
+                            <f:facet name="header">
+                                <h:outputText value="Product ID" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.productID}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Product Description" ></h:outputText>
+                            </f:facet>
+                            <h:outputText  escape="false" value="#{item.productDescp}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cost Price" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.costPrice}"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Sales Price" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.salesPrice}"></h:outputText>
+                        </b:column>
+                        
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Company" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.companyName}"></h:outputText>
+                        </b:column>
+                        
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="Registration_Date" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.date_of_registion}"></h:outputText>
+                        </b:column>
+                    </b:dataTable>
+
+                </div>
+
+            </b:form>
+
+        </b:container>
+
+
+        <!-- adding the footer -->
+
+
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+    </h:body>
+</html>
+

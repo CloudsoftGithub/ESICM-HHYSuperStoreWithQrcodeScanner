@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>adminuser login</title>
+    </h:head>
+
+
+    <h:body style="padding: 60px;color: #0033ff">
+        <b:form>
+            <p:growl id="messages" showDetail="true" sticky="true" />
+
+            <p:idleMonitor timeout="40000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+            </p:idleMonitor>
+        </b:form>
+
+        <div>
+            <b:form>
+                <ui:include src="header.xhtml"/>
+            </b:form>
+        </div>
+
+
+        <b:container  fluid="false" >
+            <div  >
+                <p:spacer height="40px" /> <!-- this is a space  -->
+            </div>
+
+
+            <b:form>
+
+                <div class="col-sm-4">
+                    <h3 align="left" style="font-family: 'Shrikhand', cursive;; color: blue"> Welcome to e-SIM Portal!
+                    </h3>
+
+                    <div style="background: #f2dede">
+                        <marquee behavior="scroll" scrolldelay="200" direction="left"  > 
+                            <h4 style="font-family: 'Pacifico', cursive; color: red; "> Please, use "Admin"  credentials to login </h4>
+                        </marquee>     
+                    </div>
+                    <p:separator/>
+
+                    <p:spacer height="30px"/>
+
+
+                </div>
+
+                <div class="col-sm-4">
+                    <b:messages id="msg" />
+
+                    <b:panel title="Admin User Login Panel" style="background:  #333333; color: white; font-size: medium">
+                        <h2 style="font-family: 'Pacifico', monospace; color: #936be8">Please, login here.</h2>
+                        <br style="height: 30px"  />
+
+                        <b:inputText tooltip="supply your username" type="text" value="#{rootLoginBEAN.username}" class="form-control" label="username" placeholder="username" required="true" requiredMessage="Pls, supply your username" />
+                        <b:inputSecret tooltip="supply your password" type="password" value="#{rootLoginBEAN.password}" class="form-control" label="password" placeholder="Password" required="true" requiredMessage="Pls, supply your password"/>      
+                        <p:separator  />
+                        <p:commandButton  style="background: blue; color: white" value="login" action="#{rootLoginBEAN.adminuserLogin()}" update="msg"/> 
+                    </b:panel>
+                    <p:spacer height="100px"/>
+                </div>
+
+                <div class="col-sm-4">
+
+                </div>
+            </b:form>
+
+
+        </b:container>
+
+    </h:body>
+</html>
+

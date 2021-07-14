@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Question Data Entry</title>
+    </h:head>
+    <h:body style="background: #99ff99;">
+        <b:form>
+            <p:growl id="messages" showDetail="true" sticky="true" />
+
+            <p:idleMonitor timeout="40000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}" update="messages" />
+            </p:idleMonitor>
+        </b:form>
+
+        <div align="left">
+
+
+            <h:form id="questiondataentryForm" style=";align-items: flex-start;">
+                <p:panel  id="QuestionDEntryPanel" header="Question Data Entry - Text Mode" style="font-size: smaller;left:24%; margin-left: -100px; width: 850px; position: relative; background: #ccffcc">
+
+                    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+
+                    <h:panelGrid columns="3"  cellpadding="1">
+                        <h:outputLabel for="textMode" value="Text Mode " style="background: #999999"/>
+                        <p:spacer  height="29"></p:spacer>
+                        <br/>
+
+                        <h:outputLabel for="ProductDescp" value="Product Description " style="color: #333333"/>
+                        <p:inputText id="ProductDescp" value="#" required="true" />
+                        <br/>
+                        <h:outputLabel for="Companyid" value="Company(Partner) ID: " style="color: #333333"/>
+                        <p:inputText id="Companyid" value="#{compnayNameSearchBean.companyID}" required="true" />
+
+                        <p:commandButton value="Search" action="#{compnayNameSearchBean.subjectSearchDMethod()}" style="color: white; background: #993300"/>
+
+                        <h:outputLabel for="CompanyName" value="CompanyName " style="color: #333333"/>
+                        <h:outputText id="CompanyName" value="#{compnayNameSearchBean.companyName}"  style="background: #cccccc"/>
+                        <br/>
+
+                        <br/>
+                        <p:commandButton value="Save" action="#{questionsDataEntryBEAN.questiondataentryMethod()}"  ajax="true" resetValues="true" style="color: white; background: #666600"/>
+
+                    </h:panelGrid>
+
+
+                    <p:spacer height="29"></p:spacer>
+
+                </p:panel>
+
+            </h:form>
+
+
+        </div>
+
+    </h:body>
+</html>
+

@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>esimbarcode_hhy_store</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/images/losalogo.ico" type="image/x-icon"/> 
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+        <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css"></link>
+
+        <!-- Google web font -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
+
+        <link href="https://fonts.googleapis.com/css?family=Anton&amp;subset=latin-ext" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;subset=latin-ext" rel="stylesheet"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Shrikhand&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet"></link>
+
+
+        <!-- style css -->
+        <link href="css/style.css" rel="stylesheet"></link>
+
+        <!-- Web of trust -->
+        <meta name="wot-verification" content="059af010b1d56404f726"/> 
+
+    </h:head>
+
+
+    <h:body style="padding: 60px;color: #0033ff">
+
+        <div>
+            <b:form>
+                <ui:include src="header.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container  fluid="false" >
+            <div>
+                <p:spacer height="40px" /> <!-- this is a space  -->
+            </div>
+
+
+            <div class="col-sm-4">
+
+                <marquee behavior="scroll" scrolldelay="200" direction="left" > 
+                    <h4 align="left" style="font-family: 'Shrikhand', cursive; color: blue"> Welcome to e-SIM Portal! </h4>
+                    <h5 style="font-family: 'Pacifico', cursive; color: red; "> Please, obtain your credentials from the system admin  </h5>
+                    <p:separator/>
+                </marquee>
+
+                <p:spacer  height="30px"/>
+            </div>
+
+
+            <div  class="col-sm-7">
+                <b:panel >
+                    <b:carousel id="CompStructure"  interval="4000">
+
+                        <b:carouselItem>
+                            <h:graphicImage name="/images/p1.png" alt="image1" styleClass="content"/>
+                            <b:carouselCaption>
+                             </b:carouselCaption>
+                        </b:carouselItem>
+                        <b:carouselItem>
+                            <h:graphicImage name="/images/p2.png" alt="Classroom Block" styleClass="content"/>
+                            <b:carouselCaption>
+                             </b:carouselCaption>
+                        </b:carouselItem>
+                        <b:carouselItem >
+                            <h:graphicImage name="/images/p3.png" alt="Classroom Block" styleClass="content"/>
+                            <b:carouselCaption>
+                             </b:carouselCaption>
+                        </b:carouselItem>
+                           <b:carouselItem >
+                            <h:graphicImage name="/images/p4.png" alt="Classroom Block" styleClass="content"/>
+                            <b:carouselCaption>
+                             </b:carouselCaption>
+                        </b:carouselItem>
+                        <b:carouselItem>
+                            <h:graphicImage name="/images/p5.png" alt="Classroom Block" styleClass="content"/>
+                            <b:carouselCaption>
+                             </b:carouselCaption>
+                        </b:carouselItem>
+                    </b:carousel>
+                </b:panel>
+                <p:spacer height="50px" />
+
+            </div>
+
+
+
+            <div>
+                <b:form>
+                    <ui:include src="footer.xhtml"/>
+                </b:form>
+            </div>
+
+        </b:container>
+
+
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+
+        <!-- js -->
+        <script type="text/javascript" src="resources/js/jquery-2.1.4.min.js"></script>
+        <!-- //js -->
+    </h:body>
+</html>
+

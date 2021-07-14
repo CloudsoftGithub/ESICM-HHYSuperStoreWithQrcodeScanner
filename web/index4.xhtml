@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>RootuserLogin</title>
+    </h:head>
+
+
+    <h:body style="padding: 60px;color: #0033ff">
+
+        <b:navBar brand="e-SIM Portal | Root User Login" brandHref="#" fixed="top" inverse="true" >
+            <b:navbarLinks>
+                <b:navLink value="Admin User Creation" href="#"></b:navLink>
+                <b:navLink value="Admin lolgin" href="#adminlogin"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
+
+        <b:container  fluid="false" >
+            <div  >
+                <p:spacer height="40px" /> <!-- this is a space  -->
+            </div>
+
+
+            <b:form>
+
+                <div class="col-sm-4">
+                    <h3 align="left" style="font-family: 'Shrikhand', cursive;; color: blue"> Welcome to e-SIM Portal!
+                    </h3>
+                    <h4 style="font-family: 'Pacifico', cursive; color: red; "> Please, use 'root' credentials to login </h4>
+                    <p:separator/>
+
+                    <p:spacer height="30px"/>
+                </div>
+
+                <div class="col-sm-4">
+                    <b:messages id="msg" />
+
+                    <b:panel title="Root User Login Panel" style="background:  #999999; color: white; font-size: medium">
+                        <h2 style="font-family: 'Pacifico', monospace; color: #936be8">Please, login here.</h2>
+                        <br style="height: 30px"  />
+
+                        <b:inputText tooltip="supply your username" type="text" value="#{rootLoginBEAN.username}" class="form-control" label="username" placeholder="username" required="true" requiredMessage="Pls, supply your username" />
+                        <b:inputSecret tooltip="supply your password" type="password" value="#{rootLoginBEAN.password}" class="form-control" label="password" placeholder="Password" required="true" requiredMessage="Pls, supply your password"/>      
+                        <p:separator  />
+                        <p:commandButton  style="background: blue; color: white" value="login" action="#{rootLoginBEAN.rootUserLogin()}" update="msg"/> 
+              
+                    </b:panel>
+                    <p:spacer height="100px"/>
+                </div>
+
+                <div class="col-sm-4">
+
+                </div>
+            </b:form>
+
+
+        </b:container>
+
+    </h:body>
+</html>
+

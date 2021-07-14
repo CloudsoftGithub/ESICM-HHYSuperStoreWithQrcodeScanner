@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>customer order-form(scanner)</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/images/losalogo.ico" type="image/x-icon"/> 
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="resources/css/bootstrap.min.css" rel="stylesheet"></link>
+
+
+        <!-- Datepicker js -->
+        <script type="text/javascript" src="resources/js/dpStartDate.js"></script>
+        <!-- //Datepicker js -->
+
+        <!-- Google web font -->
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
+
+        <link href="https://fonts.googleapis.com/css?family=Anton&amp;subset=latin-ext" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;subset=latin-ext" rel="stylesheet"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Oleo+Script:400,700&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Shrikhand&amp;subset=latin-ext" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet"></link>
+
+        <!-- style css -->
+        <link href="css/style.css" rel="stylesheet"></link>
+
+        <script type="text/javascript" language="javascript">
+            function getWidgetVarById(id) {
+                for (var propertyName in PrimeFaces.widgets) {
+                    if (PrimeFaces.widgets[propertyName].id === id) {
+                        return PrimeFaces.widgets[propertyName];
+                    }
+                }
+            }
+        </script>
+        <script type="text/javascript" language="javascript">
+            function setFocus(productTitle) {
+                var element = document.getElementById(id);
+                if (element.focus) {
+                    element.focus();
+                }
+            }
+        </script>
+
+    </h:head>
+
+    <h:body style="font-size: small;background: #ccccff">
+        <b:form>
+
+            <p:idleMonitor timeout="40000">
+                <p:ajax event="idle" listener="#{idleMonitorView.onIdle}"  />
+                <p:ajax event="active" listener="#{idleMonitorView.onActive}"  />
+            </p:idleMonitor>
+        </b:form>
+        <div align="center">
+            <h:form style="background: #336600;" >
+
+                <ui:include src="headerSales-ManagerDashboard.xhtml"/>
+            </h:form>
+        </div>
+
+        <div>
+            <p:spacer height="130px" /> <!-- this is a space  -->
+        </div>
+
+        <b:container  fluid="false" > 
+
+            <b:form id="CustomerOrderForm">
+
+                <p:growl id="msg1" autoUpdate="true" showDetail="true"/>
+
+                <b:messages id="msg"  style="font-size: medium" show-icon="true"/>
+                <div class="col-sm-4">
+                    <b:panel id="CustomerRegPanel"  title="Customer-Order(Scanner)" style="background: #936be8; color: #000000; font-size: small">
+
+                        <div align="left">
+                            <b:label  style=" color: white; font-family:   monospace; font-size: large" value="Customer-Order Information"/>
+                            <p:spacer style="height: 30px"/>  
+                        </div>
+
+
+                        <h4 align="left"  >  Username:  <h:inputText id="userName"  value="#{rootLoginBEAN.username}" required="true" requiredMessage="Pls, login again so 'username' get supplied." style="background: #ccccff; width: 310px; background:pink; font-family: monospace"/>   </h4>
+                        <b:inputText id="customerName"  style="width: 310px; " label="Customer Name:"  value="#{orderBEAN.customerName}"  required="true"  requiredMessage="Pls, supply customer name!"  />
+
+                        <b:inputText id="productTitle" ajax="false" label="Product Title:" 
+                                     value="#{orderBEAN.productDescp}" required="true" 
+                                     requiredMessage="Pls, select product!" oncomplete="#{orderBEAN.preOrderDetail()}" >
+
+                        </b:inputText>
+
+                        <b:commandButton id="addProdButton" class="center-block" style="background: green; color: white;  width: 280px; height: 100px;" 
+                                         value=" ADD Product" 
+                                         icon="shopping-cart" size="lg"
+                                         action="#{orderBEAN.preOrderDetail()}"  update="msg,msg1,preOrderDetails,OrderAmount,productTitle"  >
+
+                        </b:commandButton>
+
+                        <p:separator  />
+
+                        <b:commandButton class="center-block" icon="trash" style="width: 280px; height: 100px; background: #0033ff; color: white; " value="CLEAR Pre-order"  size="lg" action="#{orderBEAN.deleteAllProductFromPreOrderList()}" process="@this, userName "   update="msg,msg1,preOrderDetails,OrderAmount"   /> 
+                        <p:separator  />
+
+
+                        <b:inputText id="orderTransactionID" style="width: 250px; background: #ccccff" label="Order Transaction Id:"  value="#{orderBEAN.transactionID}" />
+                        <p:separator  />
+
+                        <b:commandButton value="Confirm Order" icon="check" action="#{orderBEAN.confirmOrder()}"   update="msg,msg1,preOrderDetails,orderTransactionID"  style="background: greenyellow; color: black;  width: 280px; height: 100px; font-size: x-large" process="@this, customerName, userName "  />
+
+
+                    </b:panel>
+                    <p:spacer height="100px"/>
+
+                </div>
+
+                <div class="col-md-8"   style="background: #936be8">
+                    <b:label  style="width: 1000px; color: #ccffcc; font-family:   monospace; font-size: large" value="Pre-Order Information"  />
+                    <p:spacer height="5px"/>
+
+                    <h:dataTable  id="preOrderDetails" border="6" value="#{orderBEAN.preOrderDetailsInfo}" var="item" style=" font-size: medium; width:740px; border-color: black; background: whitesmoke" >
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Prod ID" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.productID}"></h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Product Description" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.productDescp}"></h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Qty" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.unitQty}"></h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Price" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.price}"></h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Total" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.totalPerProduct}"></h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.orderDate}"></h:outputText>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Username" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.userName}"></h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DELETE ITEM" ></h:outputText>
+                            </f:facet>
+
+                            <h:column >
+                                <p:rowEditor />
+                                <p:commandButton  style="font-size: medium" value="Delete item" 
+                                                  action="#{deleteItemRowInPreOrderBEAN.removeProductFromOrderListWithCommandLink(item.productDescp,item.userName)}" process="@this"  update="CustomerOrderForm, preOrderDetails" >
+
+                                </p:commandButton>
+                            </h:column>
+
+                        </h:column>
+
+                    </h:dataTable>
+                    <br />
+                    <div align="left">
+                        <b:label  style="width: 1000px; color: #ccffcc; font-family:   monospace; font-size: large" value="Calculated Order-Amount"  />
+                    </div>
+
+                    <!-- displaying the order-Amount-->
+                    <b:dataTable searching="false" id="OrderAmount" value="#{orderBEAN.preOrderAmountInfo}" var="item" style="width:750px;">
+                        <f:facet name="header">
+                            <h:outputText value="Order Amount" />
+                        </f:facet>
+
+                        <b:column >
+                            <f:facet name="header">
+                                <h:outputText value="Order Total Amount" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="Total Amount in Naira"></h:outputText>
+                        </b:column>
+
+                        <b:column>
+                            <f:facet name="header">
+                                <h:outputText value="order_Amount" ></h:outputText>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{item.order_amount}"></h:outputText>
+                        </b:column>
+                    </b:dataTable>
+
+                    <!--Retrieving the List of Confirmed Oders List with Transaction ID -->
+
+                </div>
+
+
+            </b:form>
+            <b:form>
+                <div align="center" style="background: #bbc6dd">
+                    <p:graphicImage name="/images/barcodeScanner.jpg" />
+                </div>
+            </b:form>
+        </b:container>
+
+
+        <!-- adding the footer -->
+        <script src="resources/js/bootstrap.min.js"></script>
+        <script src="resources/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
+        <script src="resources/js/wow.min.js"></script>
+        <script src="resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
+        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
+        <script src="resources/js/script.js"></script>
+    </h:body>
+</html>
+
